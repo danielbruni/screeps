@@ -1,6 +1,6 @@
-var HelperFunctions = {};
+var helper = {};
 
-HelperFunctions.garbageCollection = function () {
+helper.garbageCollection = function () {
     for ( let name in Memory.creeps) {
         if (Game.creeps[name] == undefined) {
             delete Memory.creeps[name];
@@ -9,4 +9,8 @@ HelperFunctions.garbageCollection = function () {
     }
 };
 
-module.exports = HelperFunctions;
+helper.getCreepByRole = function (roleName) {
+    return _.filter(Game.creeps, (creep) => creep.memory.role == roleName);
+};
+
+module.exports = helper;

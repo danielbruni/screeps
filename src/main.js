@@ -1,23 +1,18 @@
-var HelperFunctions = require('HelperFunctions');
+var helper = require('helper');
 var roles = {
     harvester: require('role.harvester'),
     upgrader: require('role.upgrader'),
     builder: require('role.builder'),
     repairer: require('role.repairer')
 };
-var ai = {
-    numbers: require('ai.numbers')
-};
+var spawn = require('spawn');
 
 module.exports.loop = function () {
     // Garbage Collection
-    HelperFunctions.garbageCollection();
+    helper.garbageCollection();
 
     // Spawn
-    ai.numbers.harvesters();
-    ai.numbers.upgraders();
-    ai.numbers.builders();
-    ai.numbers.repairers();
+    spawn.run();
 
     // Run Roles
     for (let name in Game.creeps) {

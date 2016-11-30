@@ -1,5 +1,4 @@
 var helper = require('helper');
-
 var spawn = {};
 
 spawn.config = {

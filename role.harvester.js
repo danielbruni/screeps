@@ -1,3 +1,5 @@
+var roleBuilder = require('role.builder');
+
 module.exports = {
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -7,9 +9,9 @@ module.exports = {
         }
         if(!creep.memory.dropoff && creep.carry.energy == creep.carryCapacity) {
             creep.memory.dropoff = true;
-            creep.say('Drop Off');
         }
 
+        // creep is supposed to collect energy
         if(!creep.memory.dropoff) {
             var sources = creep.room.find(FIND_SOURCES);
 
@@ -26,7 +28,8 @@ module.exports = {
                 creep.moveTo(sources[creep.memory.source]);
             }
         }
-        else {
+        else 
+        {
             var targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return ((structure.structureType == STRUCTURE_EXTENSION ||
@@ -37,6 +40,8 @@ module.exports = {
                 }
             });
 
+            // if there is a structure that needs energy
+            // deliver the energy to the structure
             if(targets.length > 0) {
                 targets.sort(function(a,b){
                     if(a.structureType == STRUCTURE_SPAWN){
@@ -53,6 +58,12 @@ module.exports = {
                 if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
                 }
+            }
+            // if there is no structure with energy needed,
+            // do another role
+            else
+            {
+                roleBuilder.run(creep);
             }
         }
     }
